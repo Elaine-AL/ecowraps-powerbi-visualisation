@@ -1,0 +1,4 @@
+1. Create databases in PostgreSQL and ssms
+	a) Under SSMS
+- Import the data from the main excel file using the OPENROWSET() function
+- Do the clean ups 
