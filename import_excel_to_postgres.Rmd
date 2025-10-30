@@ -1,0 +1,72 @@
+---
+title: "Importing excel data to Postgres"
+author: "Elaine Lwane"
+output: html_document
+date: "2025-10-29"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introduction
+
+This is the Rscript that connects with Postgres, reads all sheets data from excel to a Postgres database so that they can visualised in PowerBi. <http://rmarkdown.rstudio.com>.
+
+### 1. Load your libraries
+
+```{r, results='hide', message=FALSE, warning=FALSE}
+#Load the necessary libraries
+#install.packages(c("DBI", "RPostgres", "readxl", "dplyr"))
+library(DBI)
+library(RPostgres)
+library(readxl)
+library(dplyr)
+
+```
+
+### 2. Connect to your postgres database
+
+Create a connection to your existing database
+
+```{r}
+con <- dbConnect(
+  RPostgres::Postgres(),
+  dbname = "ecowraps",
+  host = "localhost",
+  port = 5432,
+  user = "postgres",
+  password = "anyanzwa"
+)
+```
+
+### 3. Read your excel sheets to R
+
+```{r, message=FALSE, warning=FALSE}
+# Path to your Excel file
+excel_file <- "C:/Users/Public/Documents/EcoWraps.xlsx"
+
+# Get all sheet names and select the ones you want
+sheet_names <- excel_sheets(excel_file) %>%
+  intersect(c("Initial stock", "Purchases", "Daily sales", "Stock", "Daily expenses"))
+
+# Loop through each sheet and upload
+for (sheet in sheet_names) {
+  cat("Uploading sheet:", sheet, "\n")
+  
+  df <- read_excel(excel_file, sheet = sheet)
+  
+  # Clean up sheet name for SQL table (replace spaces etc.)
+  table_name <- gsub(" ", "_", tolower(sheet))
+  
+  # Write to PostgreSQL
+  dbWriteTable(con, table_name, df, overwrite = TRUE, row.names = FALSE)
+}
+```
+
+```{r}
+cat("✅ All sheets imported successfully!\n")
+```
+
+Now go confirm in your Postgres DB if the tables are there!
+

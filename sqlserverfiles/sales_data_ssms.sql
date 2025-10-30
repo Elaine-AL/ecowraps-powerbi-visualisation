@@ -33,8 +33,13 @@ ADD [MonthYear] VARCHAR(8);
 UPDATE dbo.DailySales
 SET [MonthYear] = UPPER(FORMAT([Month], 'MMM-yyyy'));
 
+-- add new column orderid for every sale
+ALTER TABLE dbo.DailySales
+ADD OrderID INT IDENTITY(1,1) PRIMARY KEY;
 
-
-
-
+-- summaries
+select sum(Tot_selling_price) as Total_revenue from DailySales
+select sum(Tot_selling_price)/COUNT(distinct OrderID) as Daily_average_revenue from DailySales
+select COUNT(OrderID) as Total_orders from DailySales
+select COUNT(OrderID)/COUNT(distinct Date) as Daily_average_orders from DailySales
 
