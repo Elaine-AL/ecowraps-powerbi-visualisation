@@ -1,5 +1,15 @@
 -- Import the sales data
 
+/*SELECT *
+INTO dbo.DailySales
+FROM OPENROWSET(
+    'Microsoft.ACE.OLEDB.12.0',
+    'Excel 12.0;HDR=YES;IMEX=1;Database=C:\Users\Public\Documents\EcoWraps.xlsx',
+    'SELECT * FROM [Daily sales$A:M]'
+);
+*/
+DROP TABLE IF EXISTS dbo.DailySales;
+
 SELECT *
 INTO dbo.DailySales
 FROM OPENROWSET(
