@@ -59,3 +59,5 @@ This is _**PowerBi, SQL server, PostgreS and R**_ analysis and presentation of t
 	- create the charts now 
 
 This is the final look of the dashboard
+
+![Image](https://github.com/Elaine-AL/ecowraps-powerbi-visualisation/blob/main/first_draft_snapshot.png)
