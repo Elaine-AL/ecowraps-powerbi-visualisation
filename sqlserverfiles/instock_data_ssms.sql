@@ -1,4 +1,5 @@
 -- Import the initial stock data
+DROP TABLE IF EXISTS dbo.InitialStock;
 
 SELECT *
 INTO dbo.InitialStock
@@ -9,5 +10,5 @@ FROM OPENROWSET(
 );
 
 -- View the table and do clean ups
-select * from dbo.InitialStock;
-EXEC sp_help 'dbo.InitialStock';
+--select * from dbo.InitialStock;
+--EXEC sp_help 'dbo.InitialStock';

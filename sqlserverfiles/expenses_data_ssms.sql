@@ -1,4 +1,5 @@
 -- Import the expenses data
+DROP TABLE IF EXISTS dbo.DailyExpenses;
 
 SELECT *
 INTO dbo.DailyExpenses
@@ -8,12 +9,11 @@ FROM OPENROWSET(
     'SELECT * FROM [Daily expenses$A:F]'
 );
 
-select * from dbo.DailyExpenses;
-EXEC sp_help 'dbo.DailyExpenses';
+--select * from dbo.DailyExpenses;
+--EXEC sp_help 'dbo.DailyExpenses';
 
 -- Change the month column to month format
 ALTER TABLE dbo.DailyExpenses
 ADD [MonthYear] VARCHAR(8);
-
 UPDATE dbo.DailyExpenses
 SET [MonthYear] = UPPER(FORMAT([Month], 'MMM-yyyy'));

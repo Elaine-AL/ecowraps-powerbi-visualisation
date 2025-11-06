@@ -1,13 +1,13 @@
 -- Import the sales data
 
-/*SELECT *
-INTO dbo.DailySales
-FROM OPENROWSET(
-    'Microsoft.ACE.OLEDB.12.0',
-    'Excel 12.0;HDR=YES;IMEX=1;Database=C:\Users\Public\Documents\EcoWraps.xlsx',
-    'SELECT * FROM [Daily sales$A:M]'
-);
-*/
+/*sp_configure 'show advanced options', 1;
+RECONFIGURE;
+sp_configure 'Ad Hoc Distributed Queries', 1;
+RECONFIGURE;*/
+
+USE ecowraps;
+GO
+
 DROP TABLE IF EXISTS dbo.DailySales;
 
 SELECT *
@@ -19,8 +19,8 @@ FROM OPENROWSET(
 );
 
 -- View the table and do clean ups
-select * from dbo.DailySales;
-EXEC sp_help 'dbo.DailySales';
+-- select * from dbo.DailySales;
+-- EXEC sp_help 'dbo.DailySales';
 
 -- Rename columns
 EXEC sp_rename 'dbo.DailySales.[Item No#]', 'Item_no', 'COLUMN';
@@ -39,7 +39,6 @@ ALTER COLUMN Item_no BIGINT;
 -- Change the month column to month format
 ALTER TABLE dbo.DailySales
 ADD [MonthYear] VARCHAR(8);
-
 UPDATE dbo.DailySales
 SET [MonthYear] = UPPER(FORMAT([Month], 'MMM-yyyy'));
 
@@ -48,8 +47,8 @@ ALTER TABLE dbo.DailySales
 ADD OrderID INT IDENTITY(1,1) PRIMARY KEY;
 
 -- summaries
-select sum(Tot_selling_price) as Total_revenue from DailySales
-select sum(Tot_selling_price)/COUNT(distinct OrderID) as Daily_average_revenue from DailySales
-select COUNT(OrderID) as Total_orders from DailySales
-select COUNT(OrderID)/COUNT(distinct Date) as Daily_average_orders from DailySales
+--select sum(Tot_selling_price) as Total_revenue from DailySales
+--select sum(Tot_selling_price)/COUNT(distinct OrderID) as Daily_average_revenue from DailySales
+--select COUNT(OrderID) as Total_orders from DailySales
+--select COUNT(OrderID)/COUNT(distinct Date) as Daily_average_orders from DailySales
 

@@ -1,4 +1,5 @@
 -- Import the current stock stock data
+DROP TABLE IF EXISTS dbo.CurrentStockLevel;
 
 SELECT *
 INTO dbo.CurrentStockLevel
@@ -8,7 +9,7 @@ FROM OPENROWSET(
     'SELECT * FROM [Stock$A2:G]'
 );
 
-select * from dbo.CurrentStockLevel;
+--select * from dbo.CurrentStockLevel;
 
 -- Remove the first two unwanted rows
 WITH CTE AS (

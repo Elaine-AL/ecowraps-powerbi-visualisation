@@ -11,12 +11,11 @@ FROM OPENROWSET(
 );
 
 -- View the table and do clean ups
-select * from dbo.Purchases;
-EXEC sp_help 'dbo.Purchases';
+--select * from dbo.Purchases;
+--EXEC sp_help 'dbo.Purchases';
 
 -- Change the month column to month format
 ALTER TABLE dbo.Purchases
 ADD [MonthYear] VARCHAR(8);
-
 UPDATE dbo.Purchases
 SET [MonthYear] = UPPER(FORMAT([Month], 'MMM-yyyy'));
