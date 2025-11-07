@@ -18,16 +18,22 @@ This is _**PowerBi, SQL server, PostgreS and R**_ analysis and presentation of t
 ![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github)
 
 > Below are the steps i took to accomplish the project:
-  1. Create databases in PostgreSQL and SQL server
-  	a) Under sql server
+  1. Data connection -- Create databases in PostgreSQL and SQL server
+     a) Under sql server
 - Import the data from the main excel file using the OPENROWSET() function
-- Do the clean ups 
-	  b) Under Postgres
+- Data cleaning -- Do the clean ups 
+- Since the import is static, we need to create an automation that reads the excel file every morning to show any changes done. We do this using the Windows Task Scheluder;
+	-> Create a basic task and create a name in Task scheduler
+	-> Select the frequency, in this case "Daily" and set the exact time
+	-> Under action, choose "Start program"
+	-> Under Program/script, write "sqlcmd"
+	-> Under Add arguments, paste this: sqlcmd -S .\SQLEXPRESS -d ecowraps -E -i "path to sql file.sql"
+  	b) Under Postgres
 - Since Postgres can't read excel sheets, we are going to load the data sheets in R, create a connection with our Postgres DB then load to our DB from R environment using dbConnect() and dbWriteTable() R functions
 - Once the data is loaded in db confirm their existence
-- Then do the cleanup
+- Then do the cleanup - data cleaning
 - Since postgres will only show what data is available in R object, we need to automate the R script to run every day when the excel refresh. We will do this using Windows Task Scheduler.;
-	-> Open Task Scheduler 
+	->Open Task Scheduler 
 	-> Create Basic Task
 	-> Create a name for the task, click next
 	-> Select frequency, in our case "Daily"/"When computer starts"
@@ -35,6 +41,7 @@ This is _**PowerBi, SQL server, PostgreS and R**_ analysis and presentation of t
 	-> In “Program/script” field: go to the Rscript.exe path
 	-> in "add arguments" field: browse to your Rscript that renders the markdown file
 	-> in "start in" field: you paste path to the folder where you want your results
+
 2. Git initialize the whole project to GitHub
 	- git config --global
 	- git init
