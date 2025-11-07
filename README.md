@@ -19,6 +19,7 @@ This is _**PowerBi, SQL server, PostgreS and R**_ analysis and presentation of t
 
 > Below are the steps i took to accomplish the project:
   1. Data connection -- Create databases in PostgreSQL and SQL server
+     
      a) Under sql server
 - Import the data from the main excel file using the OPENROWSET() function
 - Data cleaning -- Do the clean ups 
@@ -28,6 +29,7 @@ This is _**PowerBi, SQL server, PostgreS and R**_ analysis and presentation of t
 	-> Under action, choose "Start program"
 	-> Under Program/script, write "sqlcmd"
 	-> Under Add arguments, paste this: sqlcmd -S .\SQLEXPRESS -d ecowraps -E -i "path to sql file.sql"
+  
   	b) Under Postgres
 - Since Postgres can't read excel sheets, we are going to load the data sheets in R, create a connection with our Postgres DB then load to our DB from R environment using dbConnect() and dbWriteTable() R functions
 - Once the data is loaded in db confirm their existence
